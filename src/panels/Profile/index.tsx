@@ -27,8 +27,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
     events, loadingEvents, errorEvents,
     user, loadingUser, errorUser, userId
   } = useSelector((s : RootState) => s.profile)
-  
-  const backgrounds = getBackgrounds(events.length)
+
   const { setLast } = useLastSchedules(COUNT_LAST_SCHEDULES)
   const [now, total, diff] = toEnd()
 
@@ -72,7 +71,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
                       return <Card
                         key={i}
                         className="event-card"
-                        style={{ background : backgrounds[i] }}
+                        style={{ background : e.background }}
                       ><Link href={e.href}>{e.title}</Link></Card>
                     })}
                 </CardScroll>

@@ -2,6 +2,8 @@ import React from 'react'
 
 import bridge from '@vkontakte/vk-bridge'
 import { Epic, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
+import Icon28UserCircleOutline from "@vkontakte/icons/dist/28/user_circle_outline"
+import Icon28GridSquareOutline from "@vkontakte/icons/dist/28/grid_square_outline"
 
 import Schedule from './panels/Schedule'
 import Profile from './panels/Profile'
@@ -38,12 +40,9 @@ const App : React.FC = () => {
 	React.useEffect(() => {
 		async function init()
 		{
-			// const userData = await bridge.send('VKWebAppGetUserInfo')
-			// dispatch(requestEvents())
-			// dispatch(requestUser(userData.id))
-
-			const vk_id = 42
-			dispatch(requestUser(vk_id))
+			const userData = await bridge.send('VKWebAppGetUserInfo')
+			dispatch(requestEvents())
+			dispatch(requestUser(userData.id))
 		}
 
 		init()
@@ -58,12 +57,14 @@ const App : React.FC = () => {
 						onClick={changeActiveStory}
 						selected={story === 'schedule'}
 						data-story={'schedule'}
-					>schedule</TabbarItem>
+						text="Расписание"
+					><Icon28GridSquareOutline/></TabbarItem>
 					<TabbarItem
 						onClick={changeActiveStory}
 						selected={story === 'profile'}
 						data-story={'profile'}
-					>profile</TabbarItem>
+						text="Профиль"
+					><Icon28UserCircleOutline/></TabbarItem>
 				</Tabbar>
 			}
 		>
@@ -71,7 +72,6 @@ const App : React.FC = () => {
 				id={'schedule'}
 				activePanel={panels.schedule}
 				modal={<StaticsLesson />}
-				onSwipeBack={(...args) => console.log('Swipe : ', ...args)}
 			>
 				<SearchPanel id='search' />
 				<Schedule id='schedule' />

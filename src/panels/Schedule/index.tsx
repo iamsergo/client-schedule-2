@@ -98,7 +98,7 @@ const Schedule : React.FC<ISchedulePanelProps> = ({
       <PanelHeader left={<PanelHeaderBack onClick={goBack} />}>
         <div onClick={toggleMenu} className='header'>
           {activeMode.text}
-          <Icon16Dropdown fill='var(--accent)' style={{ transform: `rotate(${menuOpened ? '180deg' : '0'})` }} />
+          <Icon16Dropdown fill='var(--accent)' style={{ transform: `rotate(${menuOpened && activeSchedule ? '180deg' : '0'})` }} />
         </div>
       </PanelHeader>
       {activeSchedule &&
@@ -157,7 +157,7 @@ const Schedule : React.FC<ISchedulePanelProps> = ({
       }
       {activeSchedule && <>
         <Title isDiff={isDiff} mySchedule={(user && user.group === activeSchedule.href) as boolean} title={activeSchedule!.title} />
-        {activeMode.id === 'exams' && <DayCard lessons={activeSchedule!.exams as ILesson[]} />}
+        {activeMode.id === 'exams' && <DayCard infoShow={false} lessons={activeSchedule!.exams as ILesson[]} />}
         {activeMode.id === 'byDays' &&
           <ByDay schedule={isDiff ? diff : activeSchedule.schedule as PlainLesson[]}/>
         }

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { COUNT_LAST_SCHEDULES, SCHEDULE_PANEL, SCHEDULE_STORY } from '../../constans'
 import { setQuery, setLoading } from '../../redux/slices/search'
 import { RootState } from '../../redux/rootReducer'
-import { requestSchedule } from '../../redux/slices/schedule'
+import { clearHistory, requestSchedule } from '../../redux/slices/schedule'
 import { useLastSchedules } from '../../utils'
 
 interface ISearchPanelProps
@@ -55,12 +55,13 @@ const SearchPanel : React.FC<ISearchPanelProps> = ({
   
   const goToSchedule = (s : FromWhom) => {
     setLast(s)
+    dispatch(clearHistory())
     dispatch(requestSchedule({href : s.href}))
     dispatch(changePanel({ story : SCHEDULE_STORY, panel : SCHEDULE_PANEL }))
   }
 
   return(
-    <Panel id={id}>
+    <Panel separator={false} id={id}>
       <PanelHeader>Поиск</PanelHeader>
       <FixedLayout vertical="top" style={{background:'var(--header_background)'}}>
         <Search

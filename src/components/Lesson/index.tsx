@@ -1,6 +1,8 @@
 import React from 'react'
 import './Lesson.sass'
 
+import Icon28InfoCircleOutline from '@vkontakte/icons/dist/28/info_outline'
+
 import { FromWhom, ILesson } from '../../types/ILesson'
 import { requestSchedule, setIsDiff, setSubject } from '../../redux/slices/schedule'
 import { useDispatch } from 'react-redux'
@@ -10,6 +12,7 @@ import { COUNT_LAST_SCHEDULES } from '../../constans'
 interface LessonProps extends ILesson
 {
   current : boolean
+  infoShow : boolean
 }
 
 const Lesson : React.FC<LessonProps> = ({
@@ -18,7 +21,8 @@ const Lesson : React.FC<LessonProps> = ({
   type,
   subject,
   fromWhoms,
-  current
+  current,
+  infoShow
 }) => {
   const dispatch = useDispatch()
 
@@ -47,7 +51,10 @@ const Lesson : React.FC<LessonProps> = ({
         <div
           className="lesson__subject"
           onClick={() => getStats(subject)}
-        >{subject}</div>
+        >
+          <div className="lesson__subject-text">{subject}</div>
+          {infoShow && <Icon28InfoCircleOutline style={{marginLeft:4}} width="18" height="18"/>}
+        </div>
         <div className="lesson__fromWhoms">
           {fromWhoms.map((fw, i) => {
             return(

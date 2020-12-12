@@ -14,12 +14,14 @@ export interface DayCardProps
   lessons : ILesson[]
   day ?: Day
   week ?: Week
+  infoShow ?: boolean
 }
 
 const DayCard : React.FC<DayCardProps> = ({
   lessons,
   day,
-  week
+  week,
+  infoShow = true
 }) => {
   return(
     <Div>
@@ -29,7 +31,7 @@ const DayCard : React.FC<DayCardProps> = ({
             const isExam = day === undefined && week === undefined
             const current = isExam ? false : currentLesson(l.time!, day!, week!)
 
-            return <Lesson key={i} {...l} current={current} />
+            return <Lesson infoShow={infoShow} key={i} {...l} current={current} />
           })}
         </Div>
       </Card>

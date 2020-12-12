@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FromWhom } from "../../types/ILesson";
 import API from '../../API'
 import { ScheduleData } from "./schedule";
+import { getBackgrounds } from "../../utils";
 
 interface User
 {
@@ -13,7 +14,7 @@ interface User
 
 interface ProfileState
 {
-  events : FromWhom[]
+  events : (FromWhom & {background : string})[]
   loadingEvents : boolean
   errorEvents : boolean
 
@@ -134,7 +135,10 @@ const profileSlice = createSlice({
       .addCase(requestEvents.fulfilled, (state, action) => {
         state.loadingEvents = false
         state.errorEvents = false
-        state.events = action.payload
+
+        const events = (action.payload as FromWhom[])
+        const bgs = getBackgrounds(events.length)
+        state.events = events.map((e,i) => ({ ...e, background : bgs[i] }))
       })
   }
 })

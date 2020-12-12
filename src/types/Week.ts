@@ -1,0 +1,1 @@
+export type Week = 0 | 1 | 2

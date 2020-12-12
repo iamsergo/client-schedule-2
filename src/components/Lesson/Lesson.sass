@@ -1,0 +1,68 @@
+.lesson
+  
+  &-wrapper
+    display: flex
+
+    margin-bottom: 12px
+
+    &:last-child
+      margin-bottom: 0
+
+  &__time
+    padding: 4px
+    font-size: 14px
+
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+
+    &-current
+      color: red
+
+  &__info
+    border-left: 4px solid gray
+    padding-left: 4px
+
+    flex: 1
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+    &-lec
+      border-color: red
+
+    &-pr
+      border-color: orange
+
+    &-lab
+      border-color: green
+
+    &-cons
+      border-color: gray
+
+    &-exam
+      border-color: blue
+
+  &__place
+    color: gray
+    font-size: 10px
+
+  &__subject
+    font-weight: bold
+    font-size: 18px
+    margin-bottom: 2px
+
+    &:active
+      opacity: 0.5
+
+  &__fromWhoms
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    font-size: 12px
+
+    div
+      margin-right: 4px
+
+    div:last-child
+      margin-right: 0

@@ -1,0 +1,57 @@
+.cell
+  font-size: 14px
+
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+  &__single
+    padding: 2px
+
+    &-place
+      color: gray
+      font-size: 10px
+
+    &-fromWhoms
+      color: blue
+      font-size: 12px
+
+      display: flex
+      flex-wrap: wrap
+      align-items: center
+      
+      div
+        margin-right: 2px
+        &:last-child
+          margin-right: 0
+
+    &-subject
+      font-weight: bold
+      align-self: center
+
+      &:active
+        opacity: 0.5
+
+    .break_bottom
+      text-decoration: underline 2px orange
+
+  &__half
+    display: grid
+
+  &__quarter
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-template-rows: repeat(2, 1fr)
+
+
+  &__half,
+  &__quarter
+    background: rgba(0,0,0, 0.07)
+    grid-gap: 2px
+
+  &__single
+    background: rgba(0,0,0, 0.1)
+
+
+  // &__half > &__single
+  //   border: 1px solid red

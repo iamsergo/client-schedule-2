@@ -1,0 +1,55 @@
+.card
+  // border: 1px solid green
+  &__container
+    display: grid
+    
+    grid-template-columns: auto repeat(6, minmax(40vw, 1fr))
+    // grid-template-columns: auto repeat(6, minmax(10rem, 1fr))
+    grid-gap: 8px
+    
+    overflow: auto
+
+  &__wrapper
+    &-vertical
+      border-radius: 8px
+      margin: 0px 8px
+      background: var(--content_tint_background)
+      
+      padding: 8px
+      overflow: auto
+      max-height: calc(100vh - 52px - 43px - 48px - 16px - 10px - 8px)
+
+    &-horizontal
+      // border: 1px solid blue
+
+      grid-column-start: 2
+      grid-column-end: 3
+      grid-row-start: 1
+
+      overflow: hidden
+
+  &__cell
+    &-header
+      font-weight: bold
+      font-size: 12px
+      border-bottom: 1px solid black
+
+    &-time
+      font-size: 10px
+      padding: 2px 0px
+      border-right: 1px solid black
+
+      .break-bottom
+        text-decoration: underline 2px orange
+        margin: 2px 0
+
+    &-time,
+    &-header
+      // border: none
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+.current
+  color: red

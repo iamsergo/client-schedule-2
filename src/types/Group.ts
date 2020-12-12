@@ -1,0 +1,1 @@
+export type Group = 0 | 1 | 2

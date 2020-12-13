@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changePanel, changeStory } from '../../redux/slices/navigation'
 import { COUNT_LAST_SCHEDULES, MAP_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from '../../constans'
 import { RootState } from '../../redux/rootReducer'
-import { requestSchedule } from '../../redux/slices/schedule'
+import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/schedule'
 import { requestEvents, delGroup, requestUser } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
@@ -98,6 +98,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
                 {
                   dispatch(changeStory(SCHEDULE_STORY))
                   dispatch(changePanel({story:SCHEDULE_STORY,panel:SEARCH_PANEL}))
+                  dispatch(clearHistory())
                 }
               }}
             >{(user && user.myGroup) ? user.myGroup.title : 'Выбрать'}</Button>
@@ -107,7 +108,10 @@ const Profile : React.FC<IProfilePanelProps> = ({
                   mode="destructive"
                   size="l"
                   style={{width : '100%'}}
-                  onClick={() => dispatch(delGroup(user.id))}
+                  onClick={() => {
+                    dispatch(setIsDiff(false))
+                    dispatch(delGroup(user.id))
+                  }}
                 >Удалить расписание</Button>
               </Div>
             }

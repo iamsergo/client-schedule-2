@@ -7,7 +7,7 @@ export const currentWeek = () : Week => {
   const ms = now.getTime()
   const d = now.getDay()
 
-  const week = weeks.filter(({date : [start, end]}) => ms >= start && ms <= end)[0].week
+  const week = weeks.filter(({date : [start, end]}) => start <= ms && ms <= end)[0].week
 
   return (d !== 0 ? week : (week === 0 ? 1 : 0)) as Week
 }

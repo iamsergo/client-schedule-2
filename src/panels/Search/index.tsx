@@ -55,7 +55,6 @@ const SearchPanel : React.FC<ISearchPanelProps> = ({
   
   const goToSchedule = (s : FromWhom) => {
     setLast(s)
-    dispatch(clearHistory())
     dispatch(requestSchedule({href : s.href}))
     dispatch(changePanel({ story : SCHEDULE_STORY, panel : SCHEDULE_PANEL }))
   }

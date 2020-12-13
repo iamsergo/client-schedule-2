@@ -56,7 +56,7 @@ const StaticsLesson : React.FC<StaticsLessonProps> = ({
           >Статистика</ModalPageHeader>
         }
       >
-        <Title title={activeSubject as string} />
+        <Title title={activeSubject as string}/>
         <Div>
           <Group header="Занятия" separator="hide">
             {data && Object.entries(data.stats).map((entrie, i) => {

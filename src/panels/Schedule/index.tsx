@@ -42,7 +42,7 @@ const Schedule : React.FC<ISchedulePanelProps> = ({
 }) => {
   const dispatch = useDispatch()
   const { activeMode, activeSchedule, loading, error, history, isDiff } = useSelector((s : RootState) => s.schedule)
-  const { user } = useSelector((s : RootState) => s.profile)
+  const { user, loadingUser } = useSelector((s : RootState) => s.profile)
 
   const [menuOpened, setMenuOpened] = React.useState<boolean>(false)
   const toggleMenu = () => setMenuOpened(!menuOpened && !loading)
@@ -156,7 +156,13 @@ const Schedule : React.FC<ISchedulePanelProps> = ({
         >Произошла ошибка</Placeholder>
       }
       {activeSchedule && <>
-        <Title isDiff={isDiff} mySchedule={(user && user.group === activeSchedule.href) as boolean} title={activeSchedule!.title} />
+        <Title
+          href={activeSchedule.href}
+          isDiff={isDiff}
+          mySchedule={(user && user.group === activeSchedule.href) as boolean}
+          title={activeSchedule!.title}
+          loading={loadingUser}
+        />
         {activeMode.id === 'exams' && <DayCard infoShow={false} lessons={activeSchedule!.exams as ILesson[]} />}
         {activeMode.id === 'byDays' &&
           <ByDay schedule={isDiff ? diff : activeSchedule.schedule as PlainLesson[]}/>

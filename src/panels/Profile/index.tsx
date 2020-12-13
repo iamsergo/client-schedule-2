@@ -3,7 +3,7 @@ import './Profile.sass'
 
 import { Button, Card, CardScroll, CellButton, Div, Group, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, ScreenSpinner } from "@vkontakte/vkui"
 import Icon28GlobeOutline from '@vkontakte/icons/dist/28/globe_outline'
-import { currentWeek, getBackgrounds, toEnd } from '../../utils'
+import { currentWeek, toEnd } from '../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePanel, changeStory } from '../../redux/slices/navigation'
 import { COUNT_LAST_SCHEDULES, MAP_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from '../../constans'

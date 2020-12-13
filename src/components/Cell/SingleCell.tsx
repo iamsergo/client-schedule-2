@@ -44,7 +44,7 @@ const SingleCell : React.FC<SingleCellProps> = ({
 
   return(
     <div
-      className="cell cell__single"
+      className={`cell cell__single cell__single-${['lec', 'pr', 'lab'][lesson.type]}`}
       style={{
         gridRow : row,
         gridColumn : column,

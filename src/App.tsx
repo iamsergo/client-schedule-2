@@ -1,7 +1,7 @@
 import React from 'react'
 
 import bridge from '@vkontakte/vk-bridge'
-import { Epic, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
+import { ConfigProvider, Epic, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
 import Icon28UserCircleOutline from "@vkontakte/icons/dist/28/user_circle_outline"
 import Icon28GridSquareOutline from "@vkontakte/icons/dist/28/grid_square_outline"
 
@@ -48,42 +48,44 @@ const App : React.FC = () => {
 	},[])
 	
 	return(
-		<Epic
-			activeStory={story}
-			tabbar={
-				<Tabbar>
-					<TabbarItem
-						onClick={changeActiveStory}
-						selected={story === 'schedule'}
-						data-story={'schedule'}
-						text="Расписание"
-					><Icon28GridSquareOutline/></TabbarItem>
-					<TabbarItem
-						onClick={changeActiveStory}
-						selected={story === 'profile'}
-						data-story={'profile'}
-						text="Профиль"
-					><Icon28UserCircleOutline/></TabbarItem>
-				</Tabbar>
-			}
-		>
-			<View
-				id={'schedule'}
-				activePanel={panels.schedule}
-				modal={<StaticsLesson />}
+		<ConfigProvider isWebView={true}>
+			<Epic
+				activeStory={story}
+				tabbar={
+					<Tabbar>
+						<TabbarItem
+							onClick={changeActiveStory}
+							selected={story === 'schedule'}
+							data-story={'schedule'}
+							text="Расписание"
+						><Icon28GridSquareOutline/></TabbarItem>
+						<TabbarItem
+							onClick={changeActiveStory}
+							selected={story === 'profile'}
+							data-story={'profile'}
+							text="Профиль"
+						><Icon28UserCircleOutline/></TabbarItem>
+					</Tabbar>
+				}
 			>
-				<SearchPanel id='search' />
-				<Schedule id='schedule' />
-			</View>
-			<View
-				id={'profile'}
-				activePanel={panels.profile}
-				popout={loadingUser ? <ScreenSpinner /> : null}
-			>
-				<Profile id='profile' />
-				<Map id='map' />
-			</View>		
-		</Epic>
+				<View
+					id={'schedule'}
+					activePanel={panels.schedule}
+					modal={<StaticsLesson />}
+				>
+					<SearchPanel id='search' />
+					<Schedule id='schedule' />
+				</View>
+				<View
+					id={'profile'}
+					activePanel={panels.profile}
+					popout={loadingUser ? <ScreenSpinner /> : null}
+				>
+					<Profile id='profile' />
+					<Map id='map' />
+				</View>		
+			</Epic>
+		</ConfigProvider>
 	)
 }
 

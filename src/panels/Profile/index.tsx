@@ -1,10 +1,12 @@
 import React from 'react'
-import './Profile.sass'
 
-import { Avatar, Banner, Button, Card, CellButton, Div, Group, Header, InfoRow, Panel, PanelHeader, PanelHeaderButton, Placeholder, Progress, Snackbar, usePlatform } from "@vkontakte/vkui"
+import { Avatar, Banner, Button, Card, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, Placeholder, Progress, Snackbar, usePlatform } from "@vkontakte/vkui"
 import Icon28GlobeOutline from '@vkontakte/icons/dist/28/globe_outline'
 import Icon16Favorite from '@vkontakte/icons/dist/16/favorite';
 import Icon16OnlineMobile from '@vkontakte/icons/dist/16/online_mobile';
+import Icon16Share from '@vkontakte/icons/dist/16/share';
+import Icon16ErrorCircleOutline from '@vkontakte/icons/dist/16/error_circle_outline';
+import Icon16DoneCircle from '@vkontakte/icons/dist/16/done_circle';
 import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
@@ -19,7 +21,7 @@ import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/sch
 import { delGroup, requestUser } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
-import { Icon16Done } from '@vkontakte/icons';
+
 
 interface IProfilePanelProps
 {
@@ -40,7 +42,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
       <Snackbar
         before={
           <Avatar size={24} style={{backgroundColor:'var(--accent)'}}>
-            <Icon16Done fill="#fff" width={14} height={14} />
+            <Icon16DoneCircle fill="#fff" width={14} height={14} />
           </Avatar>
         }
         onClose={() => setSnackbar(null)}
@@ -66,6 +68,12 @@ const Profile : React.FC<IProfilePanelProps> = ({
 
   const addToHomeScreen = () => {
     bridge.send('VKWebAppAddToHomeScreen')
+      .then(res=>res)
+      .catch(err=>err)
+  }
+
+  const share = () => {
+    bridge.send('VKWebAppShare')
       .then(res=>res)
       .catch(err=>err)
   }
@@ -118,6 +126,27 @@ const Profile : React.FC<IProfilePanelProps> = ({
                     before={<Icon16OnlineMobile/>}
                   >На дом. экран</Button>
                 }
+              </div>
+            }
+          />
+
+          <Banner
+            mode="image"
+            header="Помощь приложению"
+            background={ <div style={{ backgroundColor: '#ed765e' }}/>}
+            actions={
+              <div style={{ display:'flex', marginTop : 12 }}>
+                <Button
+                  mode="commerce"
+                  onClick={share}
+                  before={<Icon16Share/>}
+                  style={{flex:1}}
+                >Поделиться</Button>
+                <Button
+                  style={{marginLeft:8, flex:1}}
+                  mode="destructive"
+                  before={<Icon16ErrorCircleOutline/>}
+                ><Link style={{color:'white'}} href={'https://vk.com/board198278031'}>Ошибка!</Link></Button>
               </div>
             }
           />
@@ -183,7 +212,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
           {user && user.myGroup &&
-            <Div style={{padding:'0px 12px 12px 12px'}}>
+            <Div style={{padding:'0px 12px'}}>
               <Card>
                 <Group
                   header={<Header>{user.group.includes('t') ? 'Группы' : 'Преподаватели'}</Header>}

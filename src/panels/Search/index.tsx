@@ -60,9 +60,9 @@ const SearchPanel : React.FC<ISearchPanelProps> = ({
   }
 
   return(
-    <Panel separator={false} id={id}>
-      <PanelHeader>Поиск</PanelHeader>
-      <FixedLayout vertical="top" style={{background:'var(--header_background)'}}>
+    <Panel id={id}>
+      <PanelHeader separator={false}>Поиск</PanelHeader>
+      <FixedLayout vertical="top">
         <Search
           placeholder="Группа или преподаватель"
           value={query}

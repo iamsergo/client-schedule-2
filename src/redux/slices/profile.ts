@@ -14,10 +14,6 @@ interface User
 
 interface ProfileState
 {
-  events : (FromWhom & {background : string})[]
-  loadingEvents : boolean
-  errorEvents : boolean
-
   user : User | null
   userId : number | null
   loadingUser : boolean
@@ -34,10 +30,6 @@ export const requestUser = createAsyncThunk(
 
     return res
   }
-)
-
-export const requestEvents = createAsyncThunk(
-  'events/request', API.requestEvents
 )
 
 export const addGroup = createAsyncThunk(
@@ -59,10 +51,6 @@ export const delGroup = createAsyncThunk(
 )
 
 const initialState : ProfileState = {
-  events : [],
-  loadingEvents : false,
-  errorEvents : false,
-
   user : null,
   // user : { id : 17, groupId : '', myGroup : null, fromWhoms : [] },
   userId : null,
@@ -122,23 +110,6 @@ const profileSlice = createSlice({
         state.user!.group = ''
         state.user!.myGroup = null
         state.user!.fromWhoms = []
-      })
-
-      .addCase(requestEvents.pending, (state) => {
-        state.loadingEvents = true
-        state.errorEvents = false
-      })
-      .addCase(requestEvents.rejected, (state) => {
-        state.loadingEvents = false
-        state.errorEvents = true
-      })
-      .addCase(requestEvents.fulfilled, (state, action) => {
-        state.loadingEvents = false
-        state.errorEvents = false
-
-        const events = (action.payload as FromWhom[])
-        const bgs = getBackgrounds(events.length)
-        state.events = events.map((e,i) => ({ ...e, background : bgs[i] }))
       })
   }
 })

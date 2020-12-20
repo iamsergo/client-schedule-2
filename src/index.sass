@@ -7,14 +7,8 @@
     opacity: 0.5
 
 .PanelHeader
-  &__container
-    background: var(--header_background)
-    display: flex
-    align-items: center
-  &__content
-    display: flex
-    align-items: flex-end
-  &-left-in
-    button
-      display: flex
-      margin-right: 8px
+  &--ios &__in
+    height: calc(var(--panelheader_height_ios) + 20px) !important
+
+.Icon
+  padding: 0 !important

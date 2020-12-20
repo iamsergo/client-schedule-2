@@ -13,8 +13,8 @@ import StaticsLesson from './components/StaticsLesson'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './redux/rootReducer'
 import { changePanel, changeStory } from './redux/slices/navigation'
-import { PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from './constans'
-import { requestEvents, requestUser } from './redux/slices/profile'
+import { SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from './constans'
+import { requestUser } from './redux/slices/profile'
 import { clearHistory } from './redux/slices/schedule'
 
 const App : React.FC = () => {
@@ -41,7 +41,6 @@ const App : React.FC = () => {
 		async function init()
 		{
 			const userData = await bridge.send('VKWebAppGetUserInfo')
-			dispatch(requestEvents())
 			dispatch(requestUser(userData.id))
 		}
 

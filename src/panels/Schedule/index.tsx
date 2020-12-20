@@ -1,7 +1,7 @@
 import React from 'react'
 import './Schedule.sass'
 
-import { Button, Cell, List, Panel, PanelHeader, PanelHeaderBack, PanelHeaderContext, PanelSpinner, Placeholder } from "@vkontakte/vkui"
+import { Button, Cell, List, Panel, PanelHeader, PanelHeaderBack, PanelHeaderContent, PanelHeaderContext, PanelSpinner, Placeholder } from "@vkontakte/vkui"
 import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown'
 import Icon24Done from '@vkontakte/icons/dist/24/done'
 

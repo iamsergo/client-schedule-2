@@ -1,6 +1,8 @@
 import {requestSchedule} from './schedule'
 import {registerUser,requestUser} from './user'
 import {addGroup,delGroup} from './group'
+import {getStreams} from './streams'
+import {getList} from './list'
 
 export default {
   requestSchedule,
@@ -8,4 +10,6 @@ export default {
   delGroup,
   registerUser,
   addGroup,
+  getStreams,
+  getList,
 }

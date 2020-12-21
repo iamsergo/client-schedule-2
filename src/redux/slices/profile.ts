@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FromWhom } from "../../types/ILesson";
 import API from '../../API'
 import { ScheduleData } from "./schedule";
-import { getBackgrounds } from "../../utils";
 
 interface User
 {
@@ -14,11 +13,19 @@ interface User
 
 interface ProfileState
 {
+  loadingStreams : boolean
+  errorStreams : boolean
+  streams : FromWhom[]
+
   user : User | null
   userId : number | null
   loadingUser : boolean
   errorUser : boolean
 }
+
+export const requestStreams = createAsyncThunk(
+  'streams/request', API.getStreams
+)
 
 export const requestUser = createAsyncThunk(
   'user/request',
@@ -51,10 +58,14 @@ export const delGroup = createAsyncThunk(
 )
 
 const initialState : ProfileState = {
+  loadingStreams : false,
+  errorStreams : false,
+  streams : [],
+
   user : null,
   // user : { id : 17, groupId : '', myGroup : null, fromWhoms : [] },
   userId : null,
-  loadingUser : true,
+  loadingUser : false,
   errorUser : false,
 }
 
@@ -110,6 +121,20 @@ const profileSlice = createSlice({
         state.user!.group = ''
         state.user!.myGroup = null
         state.user!.fromWhoms = []
+      })
+
+      .addCase(requestStreams.pending, (state) => {
+        state.loadingStreams = true
+        state.errorStreams = false
+      })
+      .addCase(requestStreams.rejected, (state) => {
+        state.loadingStreams = false
+        state.errorStreams = true
+      })
+      .addCase(requestStreams.fulfilled, (state, action) => {
+        state.loadingStreams = false
+        state.errorStreams = false
+        state.streams = action.payload
       })
   }
 })

@@ -1,12 +1,15 @@
 import React from 'react'
+import './Profile.sass'
 
-import { Avatar, Banner, Button, Card, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, Placeholder, Progress, Snackbar, usePlatform } from "@vkontakte/vkui"
+import { Avatar, Banner, Button, Card, CardScroll, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, Snackbar, usePlatform } from "@vkontakte/vkui"
 import Icon28GlobeOutline from '@vkontakte/icons/dist/28/globe_outline'
 import Icon16Favorite from '@vkontakte/icons/dist/16/favorite';
 import Icon16OnlineMobile from '@vkontakte/icons/dist/16/online_mobile';
 import Icon16Share from '@vkontakte/icons/dist/16/share';
 import Icon16ErrorCircleOutline from '@vkontakte/icons/dist/16/error_circle_outline';
 import Icon16DoneCircle from '@vkontakte/icons/dist/16/done_circle';
+import Icon24NotificationOutline from '@vkontakte/icons/dist/24/notification_outline';
+import Icon24NotificationSlashOutline from '@vkontakte/icons/dist/24/notification_slash_outline';
 import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
@@ -18,7 +21,7 @@ import { changePanel, changeStory } from '../../redux/slices/navigation'
 import { COUNT_LAST_SCHEDULES, MAP_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from '../../constans'
 import { RootState } from '../../redux/rootReducer'
 import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/schedule'
-import { delGroup, requestUser } from '../../redux/slices/profile'
+import { delGroup, requestStreams, requestUser } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
 
@@ -34,10 +37,13 @@ const Profile : React.FC<IProfilePanelProps> = ({
   const platform = usePlatform()
   
   const dispatch = useDispatch()
-  const { user, loadingUser, errorUser, userId } = useSelector((s : RootState) => s.profile)
+  const {
+    user, loadingUser, errorUser, userId,
+    streams, loadingStreams, errorStreams,
+  } = useSelector((s : RootState) => s.profile)
 
   const [snackbar, setSnackbar] = React.useState<React.ReactElement | null>(null)
-  const openSnackbar = () => {
+  const openSnackbar = (text : string) => {
     setSnackbar(
       <Snackbar
         before={
@@ -46,7 +52,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
           </Avatar>
         }
         onClose={() => setSnackbar(null)}
-      >Добавлено в избранное</Snackbar>
+      >{text}</Snackbar>
     )
   }
 
@@ -62,10 +68,16 @@ const Profile : React.FC<IProfilePanelProps> = ({
 
   const addToFavorites = () => {
     bridge.send('VKWebAppAddToFavorites')
-      .then(_=>openSnackbar())
+      .then(_=>openSnackbar('Добавлено в избранное'))
       .catch(err=>err)
   }
 
+  const allowNotifications = () => {
+    bridge.send('VKWebAppAllowNotifications')
+      .then(_=>openSnackbar('Уведомления разрешены'))
+      .catch(err=>err)
+  }
+  
   const addToHomeScreen = () => {
     bridge.send('VKWebAppAddToHomeScreen')
       .then(res=>res)
@@ -88,7 +100,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
         }
       >Профиль</PanelHeader>
 
-      {!loadingUser &&
+      {!loadingUser && !errorUser &&
         <Group>
           <Banner
             mode="image"
@@ -113,11 +125,17 @@ const Profile : React.FC<IProfilePanelProps> = ({
                   width : '70%',
                 }}
               >
-                <Button
-                  mode="overlay_primary"
-                  onClick={addToFavorites}
-                  before={<Icon16Favorite/>}
-                >В избранное</Button>
+                  <Button
+                    mode="overlay_primary"
+                    onClick={addToFavorites}
+                    before={<Icon16Favorite/>}
+                  >В избранное</Button>
+                  <Button
+                    style={{marginTop:8}}
+                    mode="overlay_primary"
+                    onClick={allowNotifications}
+                    before={<Icon24NotificationOutline width={16}/>}
+                  >Уведомления</Button>
                 {platform === 'android' &&
                   <Button
                     style={{marginTop:8}}
@@ -176,6 +194,32 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
 
+          <Div style={{padding:'0px 12px'}}>
+            <Card className="card-wrapper">
+              <Header>Трансляции</Header>
+                {loadingStreams
+                  ? <PanelSpinner />
+                  : errorStreams
+                    ? <Div style={{display:'flex', justifyContent:'center'}}>
+                        <Button
+                          mode="tertiary"
+                          onClick={() => dispatch(requestStreams())}
+                        >Попробовать еще</Button>
+                    </Div>
+                    : <CardScroll>
+                        {streams.map((stream, i) => {
+                          return <Card
+                            key={i}
+                            className="card-stream"
+                          ><Link href={stream.href}>{stream.title}</Link></Card>
+                          })
+                        }
+                      </CardScroll>
+                }
+              
+            </Card>
+          </Div>
+
           <Banner
             mode="image"
             header="Ваше расписание"
@@ -212,7 +256,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
           {user && user.myGroup &&
-            <Div style={{padding:'0px 12px'}}>
+            <Div style={{padding:'0px 12px 12px 12px'}}>
               <Card>
                 <Group
                   header={<Header>{user.group.includes('t') ? 'Группы' : 'Преподаватели'}</Header>}

@@ -4,6 +4,7 @@ import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, Epic, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
 import Icon28UserCircleOutline from "@vkontakte/icons/dist/28/user_circle_outline"
 import Icon28GridSquareOutline from "@vkontakte/icons/dist/28/grid_square_outline"
+import Icon28ListOutline from '@vkontakte/icons/dist/28/list_outline';
 
 import Schedule from './panels/Schedule'
 import Profile from './panels/Profile'
@@ -14,8 +15,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './redux/rootReducer'
 import { changePanel, changeStory } from './redux/slices/navigation'
 import { SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from './constans'
-import { requestUser } from './redux/slices/profile'
+import { requestStreams, requestUser } from './redux/slices/profile'
 import { clearHistory } from './redux/slices/schedule'
+import ListPanel from './panels/List'
 
 const App : React.FC = () => {
 	const dispatch = useDispatch()
@@ -41,6 +43,7 @@ const App : React.FC = () => {
 		async function init()
 		{
 			const userData = await bridge.send('VKWebAppGetUserInfo')
+			dispatch(requestStreams())
 			dispatch(requestUser(userData.id))
 		}
 
@@ -53,6 +56,12 @@ const App : React.FC = () => {
 				activeStory={story}
 				tabbar={
 					<Tabbar>
+						<TabbarItem
+							onClick={changeActiveStory}
+							selected={story === 'list'}
+							data-story={'list'}
+							text="Список"
+						><Icon28ListOutline/></TabbarItem>						
 						<TabbarItem
 							onClick={changeActiveStory}
 							selected={story === 'schedule'}
@@ -68,6 +77,12 @@ const App : React.FC = () => {
 					</Tabbar>
 				}
 			>
+				<View
+					id={'list'}
+					activePanel={panels.list}
+				>
+					<ListPanel id="list" />
+				</View>
 				<View
 					id={'schedule'}
 					activePanel={panels.schedule}

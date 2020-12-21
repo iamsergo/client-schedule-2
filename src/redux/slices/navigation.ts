@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-import { MAP_PANEL, PROFILE_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from "../../constans"
+import { MAP_PANEL, PROFILE_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL, LIST_PANEL, LIST_STORY } from "../../constans"
 
-type Story = typeof PROFILE_STORY | typeof SCHEDULE_STORY
+type Story = typeof PROFILE_STORY | typeof SCHEDULE_STORY | typeof LIST_STORY
 type ProfilePanel = typeof PROFILE_PANEL | typeof MAP_PANEL
 type SchedulePanel = typeof SCHEDULE_PANEL | typeof SEARCH_PANEL
-type Panel = { schedule : SchedulePanel, profile : ProfilePanel }
+type ListPanel = typeof LIST_PANEL
+type Panel = { schedule : SchedulePanel, profile : ProfilePanel, list : ListPanel }
 
 type ChangePanelAction = { story : keyof Panel, panel : ProfilePanel | SchedulePanel }
 
@@ -19,7 +20,8 @@ const initialState : NavigationState = {
   story : PROFILE_STORY,
   panels : {
     schedule : SEARCH_PANEL,
-    profile : PROFILE_PANEL
+    profile : PROFILE_PANEL,
+    list : LIST_PANEL,
   },
 }
 

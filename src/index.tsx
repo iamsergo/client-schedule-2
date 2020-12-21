@@ -12,7 +12,7 @@ import '@vkontakte/vkui/dist/vkui.css'
 import './index.sass'
 import Switcher from './components/Switcher'
 
-eruda.init()
+// eruda.init()
 
 bridge.send('VKWebAppInit')
 bridge.subscribe(e => {

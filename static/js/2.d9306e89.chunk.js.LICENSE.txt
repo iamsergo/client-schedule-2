@@ -4,8 +4,6 @@ object-assign
 @license MIT
 */
 
-/*! eruda v2.2.0 https://eruda.liriliri.io/ */
-
 /** @license React v0.15.0
  * scheduler.production.min.js
  *

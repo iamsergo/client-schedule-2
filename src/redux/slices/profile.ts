@@ -65,7 +65,7 @@ const initialState : ProfileState = {
   user : null,
   // user : { id : 17, groupId : '', myGroup : null, fromWhoms : [] },
   userId : null,
-  loadingUser : false,
+  loadingUser : true,
   errorUser : false,
 }
 

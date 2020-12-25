@@ -10,6 +10,7 @@ import Icon16ErrorCircleOutline from '@vkontakte/icons/dist/16/error_circle_outl
 import Icon16DoneCircle from '@vkontakte/icons/dist/16/done_circle';
 import Icon24NotificationOutline from '@vkontakte/icons/dist/24/notification_outline';
 import Icon24NotificationSlashOutline from '@vkontakte/icons/dist/24/notification_slash_outline';
+import Icon28SnowflakeOutline from '@vkontakte/icons/dist/28/snowflake_outline';
 import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
@@ -277,7 +278,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
 
       {snackbar}
 
-      {errorUser &&
+      {/* {errorUser &&
         <Placeholder
           action={
             <Button
@@ -286,8 +287,13 @@ const Profile : React.FC<IProfilePanelProps> = ({
             >Попробовать еще</Button>
           }
           stretched
-        >Произошла ошибка</Placeholder>
-      }
+          className="placeholder-error"
+        >
+          <Icon28SnowflakeOutline fill="#2975cc" width={64} height={64} style={{margin:'0 auto'}}/>
+          <span>Произошла ошибка</span><br/>
+          <span>сайт БГТУ ушел на каникулы</span>
+        </Placeholder>
+      } */}
     </Panel>
   )
 }

@@ -1,10 +1,11 @@
 import React from 'react'
 
 import bridge from '@vkontakte/vk-bridge'
-import { ConfigProvider, Epic, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
+import { Button, ConfigProvider, Epic, Placeholder, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
 import Icon28UserCircleOutline from "@vkontakte/icons/dist/28/user_circle_outline"
 import Icon28GridSquareOutline from "@vkontakte/icons/dist/28/grid_square_outline"
 import Icon28ListOutline from '@vkontakte/icons/dist/28/list_outline';
+import Icon28SnowflakeOutline from '@vkontakte/icons/dist/28/snowflake_outline'
 
 import Schedule from './panels/Schedule'
 import Profile from './panels/Profile'
@@ -22,7 +23,7 @@ import ListPanel from './panels/List'
 const App : React.FC = () => {
 	const dispatch = useDispatch()
 	const { story, panels } = useSelector((s : RootState) => s.navigation)
-	const { loadingUser } = useSelector((s : RootState) => s.profile)
+	const { loadingUser, errorUser, userId } = useSelector((s : RootState) => s.profile)
 
 	const changeActiveStory = (e : React.MouseEvent<HTMLDivElement>) => {
 		const newStory = e.currentTarget.dataset.story
@@ -49,6 +50,24 @@ const App : React.FC = () => {
 
 		init()
 	},[])
+
+	if(errorUser)
+		return (
+			<Placeholder
+				action={
+					<Button
+						mode="tertiary"
+						onClick={() => dispatch(requestUser(userId as number))}
+					>Попробовать еще</Button>
+				}
+				stretched
+				className="placeholder-error"
+			>
+				<Icon28SnowflakeOutline fill="#2975cc" width={64} height={64} style={{margin:'0 auto'}}/>
+				<span>Произошла ошибка</span><br/>
+				<span>сайт БГТУ ушел на каникулы</span>
+			</Placeholder>
+		)
 	
 	return(
 		<ConfigProvider isWebView={true}>

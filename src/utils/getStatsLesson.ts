@@ -1,4 +1,5 @@
-import weeks from '../data/weeks.json'
+// import weeks from '../data/weeks.json'
+import weeks from '../data/weeks_new.json'
 
 import { FromWhom } from '../types/ILesson'
 import { PlainLesson } from '../types/PlainLesson'

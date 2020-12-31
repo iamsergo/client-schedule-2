@@ -16,13 +16,13 @@ import bridge from '@vkontakte/vk-bridge'
 import bg1 from '../../assets/banner_bg.jpg'
 import bg2 from '../../assets/banner_bg1.jpg'
 
-import { currentWeek, toEnd } from '../../utils'
+import {currentWeek, toEnd } from '../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePanel, changeStory } from '../../redux/slices/navigation'
 import { COUNT_LAST_SCHEDULES, MAP_PANEL, PROFILE_STORY, SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from '../../constans'
 import { RootState } from '../../redux/rootReducer'
 import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/schedule'
-import { delGroup, requestStreams, requestUser } from '../../redux/slices/profile'
+import { delGroup, requestStreams } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
 
@@ -277,23 +277,6 @@ const Profile : React.FC<IProfilePanelProps> = ({
       }
 
       {snackbar}
-
-      {/* {errorUser &&
-        <Placeholder
-          action={
-            <Button
-              mode="tertiary"
-              onClick={() => dispatch(requestUser(userId as number))}
-            >Попробовать еще</Button>
-          }
-          stretched
-          className="placeholder-error"
-        >
-          <Icon28SnowflakeOutline fill="#2975cc" width={64} height={64} style={{margin:'0 auto'}}/>
-          <span>Произошла ошибка</span><br/>
-          <span>сайт БГТУ ушел на каникулы</span>
-        </Placeholder>
-      } */}
     </Panel>
   )
 }

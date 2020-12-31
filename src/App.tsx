@@ -4,7 +4,6 @@ import bridge from '@vkontakte/vk-bridge'
 import { Button, ConfigProvider, Epic, Placeholder, ScreenSpinner, Tabbar, TabbarItem, View } from '@vkontakte/vkui'
 import Icon28UserCircleOutline from "@vkontakte/icons/dist/28/user_circle_outline"
 import Icon28GridSquareOutline from "@vkontakte/icons/dist/28/grid_square_outline"
-import Icon28ListOutline from '@vkontakte/icons/dist/28/list_outline';
 import Icon28SnowflakeOutline from '@vkontakte/icons/dist/28/snowflake_outline'
 
 import Schedule from './panels/Schedule'
@@ -18,7 +17,6 @@ import { changePanel, changeStory } from './redux/slices/navigation'
 import { SCHEDULE_PANEL, SCHEDULE_STORY, SEARCH_PANEL } from './constans'
 import { requestStreams, requestUser } from './redux/slices/profile'
 import { clearHistory } from './redux/slices/schedule'
-import ListPanel from './panels/List'
 
 const App : React.FC = () => {
 	const dispatch = useDispatch()
@@ -74,13 +72,7 @@ const App : React.FC = () => {
 			<Epic
 				activeStory={story}
 				tabbar={
-					<Tabbar>
-						<TabbarItem
-							onClick={changeActiveStory}
-							selected={story === 'list'}
-							data-story={'list'}
-							text="Список"
-						><Icon28ListOutline/></TabbarItem>						
+					<Tabbar>					
 						<TabbarItem
 							onClick={changeActiveStory}
 							selected={story === 'schedule'}
@@ -96,12 +88,6 @@ const App : React.FC = () => {
 					</Tabbar>
 				}
 			>
-				<View
-					id={'list'}
-					activePanel={panels.list}
-				>
-					<ListPanel id="list" />
-				</View>
 				<View
 					id={'schedule'}
 					activePanel={panels.schedule}

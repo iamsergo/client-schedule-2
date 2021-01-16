@@ -1,5 +1,5 @@
 export const toEnd = () => {
-  const start = new Date(2021, 0, 4).getTime()
+  const start = new Date(2021, 0, 25).getTime()
   const now = new Date().getTime()
   const end = new Date(2021, 4, 30).getTime()
 

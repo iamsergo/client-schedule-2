@@ -1,8 +1,6 @@
 import { PlainLesson, Coords } from "../types/PlainLesson"
 
-export const getDiff = (a : PlainLesson[], b : PlainLesson[]) : PlainLesson[] => {
-  console.log('DIFF...')
-  
+export const getDiff = (a : PlainLesson[], b : PlainLesson[]) : PlainLesson[] => {  
   const isEqual = (a : Coords, b : Coords) : boolean => {
     const dayEqual = a.i === b.i
     const lessonNumEqual = a.j === b.j

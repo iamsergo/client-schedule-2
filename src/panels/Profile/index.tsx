@@ -11,6 +11,7 @@ import Icon16DoneCircle from '@vkontakte/icons/dist/16/done_circle';
 import Icon24NotificationOutline from '@vkontakte/icons/dist/24/notification_outline';
 import Icon24NotificationSlashOutline from '@vkontakte/icons/dist/24/notification_slash_outline';
 import Icon28SnowflakeOutline from '@vkontakte/icons/dist/28/snowflake_outline';
+import Icon16Users from '@vkontakte/icons/dist/16/users';
 import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
@@ -25,6 +26,7 @@ import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/sch
 import { delGroup, requestStreams } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
+
 
 
 interface IProfilePanelProps
@@ -90,6 +92,12 @@ const Profile : React.FC<IProfilePanelProps> = ({
       .then(res=>res)
       .catch(err=>err)
   }
+
+  const joinGroup = () => {
+    bridge.send('VKWebAppJoinGroup',{group_id:198278031})
+      .then(res=>res)
+      .catch(err=>err)    
+  }
   
   return(
     <Panel id={id}>
@@ -154,18 +162,26 @@ const Profile : React.FC<IProfilePanelProps> = ({
             header="Помощь приложению"
             background={ <div style={{ backgroundColor: '#ed765e' }}/>}
             actions={
-              <div style={{ display:'flex', marginTop : 12 }}>
+              <div style={{ display:'flex', flexDirection : 'column', marginTop : 12 }}>
                 <Button
-                  mode="commerce"
+                  size="l"
                   onClick={share}
                   before={<Icon16Share/>}
                   style={{flex:1}}
                 >Поделиться</Button>
                 <Button
-                  style={{marginLeft:8, flex:1}}
+                  size="l"
+                  style={{marginTop:8, flex:1}}
                   mode="destructive"
                   before={<Icon16ErrorCircleOutline/>}
-                ><Link style={{color:'white'}} href={'https://vk.com/board198278031'}>Ошибка!</Link></Button>
+                ><Link style={{color:'white'}} href={'https://vk.com/board198278031'}>Сообщить об ошибке</Link></Button>
+                <Button
+                  size="l"
+                  mode="commerce"
+                  onClick={joinGroup}
+                  before={<Icon16Users/>}
+                  style={{marginTop:8, flex:1}}
+                >Вступить в группу</Button>
               </div>
             }
           />
@@ -173,7 +189,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
           <Banner
             mode="image"
             header={`Текущая неделя : ${currentWeek() === 0 ? 'числитель' : 'знаменатель'}`}
-            subheader={`Конец семестра 03.01.2021г`}
+            subheader={`Конец семестра 30.05.2021г`}
             background={
               <div
                 style={{

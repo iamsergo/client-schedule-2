@@ -1,7 +1,7 @@
 import React from 'react'
 import './Profile.sass'
 
-import { Avatar, Banner, Button, Card, CardScroll, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, Snackbar, usePlatform } from "@vkontakte/vkui"
+import { Avatar, Banner, Button, Card, CardScroll, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, Snackbar, Spinner, usePlatform } from "@vkontakte/vkui"
 import Icon28GlobeOutline from '@vkontakte/icons/dist/28/globe_outline'
 import Icon16Favorite from '@vkontakte/icons/dist/16/favorite';
 import Icon16OnlineMobile from '@vkontakte/icons/dist/16/online_mobile';
@@ -113,81 +113,6 @@ const Profile : React.FC<IProfilePanelProps> = ({
         <Group>
           <Banner
             mode="image"
-            header="Ускорение доступа"
-            background={
-              <div
-                style={{
-                  backgroundColor: '#5b9be6',
-                  backgroundImage: `url(${bg1})`,
-                  backgroundPosition: 'right bottom',
-                  backgroundSize: '100%',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
-            }
-            actions={
-              <div
-                style={{
-                  display:'flex',
-                  flexDirection : 'column',
-                  marginTop : 12,
-                  width : '70%',
-                }}
-              >
-                  <Button
-                    mode="overlay_primary"
-                    onClick={addToFavorites}
-                    before={<Icon16Favorite/>}
-                  >В избранное</Button>
-                  <Button
-                    style={{marginTop:8}}
-                    mode="overlay_primary"
-                    onClick={allowNotifications}
-                    before={<Icon24NotificationOutline width={16}/>}
-                  >Уведомления</Button>
-                {platform === 'android' &&
-                  <Button
-                    style={{marginTop:8}}
-                    mode="overlay_primary"
-                    onClick={addToHomeScreen}
-                    before={<Icon16OnlineMobile/>}
-                  >На дом. экран</Button>
-                }
-              </div>
-            }
-          />
-
-          <Banner
-            mode="image"
-            header="Помощь приложению"
-            background={ <div style={{ backgroundColor: '#ed765e' }}/>}
-            actions={
-              <div style={{ display:'flex', flexDirection : 'column', marginTop : 12 }}>
-                <Button
-                  size="l"
-                  onClick={share}
-                  before={<Icon16Share/>}
-                  style={{flex:1}}
-                >Поделиться</Button>
-                <Button
-                  size="l"
-                  style={{marginTop:8, flex:1}}
-                  mode="destructive"
-                  before={<Icon16ErrorCircleOutline/>}
-                ><Link style={{color:'white'}} href={'https://vk.com/board198278031'}>Сообщить об ошибке</Link></Button>
-                <Button
-                  size="l"
-                  mode="commerce"
-                  onClick={joinGroup}
-                  before={<Icon16Users/>}
-                  style={{marginTop:8, flex:1}}
-                >Вступить в группу</Button>
-              </div>
-            }
-          />
-
-          <Banner
-            mode="image"
             header={`Текущая неделя : ${currentWeek() === 0 ? 'числитель' : 'знаменатель'}`}
             subheader={`Конец семестра 30.05.2021г`}
             background={
@@ -214,64 +139,87 @@ const Profile : React.FC<IProfilePanelProps> = ({
           <Div style={{padding:'0px 12px'}}>
             <Card className="card-wrapper">
               <Header>Трансляции</Header>
-                {loadingStreams
-                  ? <PanelSpinner />
-                  : errorStreams
-                    ? <Div style={{display:'flex', justifyContent:'center'}}>
-                        <Button
-                          mode="tertiary"
-                          onClick={() => dispatch(requestStreams())}
-                        >Попробовать еще</Button>
-                    </Div>
-                    : <CardScroll>
-                        {streams.map((stream, i) => {
-                          return <Card
-                            key={i}
-                            className="card-stream"
-                          ><Link href={stream.href}>{stream.title}</Link></Card>
-                          })
-                        }
-                      </CardScroll>
-                }
+              {streams.length === 0 && !loadingStreams &&
+                <CellButton
+                  onClick={() => dispatch(requestStreams())}
+                >Загрузить</CellButton>
+              }
+              {loadingStreams
+                ? <Spinner />
+                : errorStreams
+                  ? <Div style={{display:'flex', justifyContent:'center'}}>
+                      <Button
+                        mode="tertiary"
+                        onClick={() => dispatch(requestStreams())}
+                      >Попробовать еще</Button>
+                  </Div>
+                  : <CardScroll>
+                      {streams.map((stream, i) => {
+                        return <Card
+                          key={i}
+                          className="card-stream"
+                        ><Link href={stream.href}>{stream.title}</Link></Card>
+                        })
+                      }
+                    </CardScroll>
+              }
               
             </Card>
           </Div>
 
-          <Banner
-            mode="image"
-            header="Ваше расписание"
-            background={<div style={{ backgroundColor:'#fea858' }} />}
-            actions={
-              user && user.myGroup
-                ? <div
-                    style={{
-                      display:'flex',
-                      flexDirection : 'column',
-                      marginTop : 12,
+          <Div style={{paddingBottom : 0}}>
+            <Card>
+              <Header>Действия</Header>
+              <CellButton
+                before={<Icon16Favorite/>}
+                onClick={addToFavorites}
+                style={{color:'orange'}}
+              >В избранное</CellButton>
+              {platform === 'android' &&
+                <CellButton
+                  before={<Icon16OnlineMobile/>}
+                  onClick={addToHomeScreen}
+                >На дом. экран</CellButton>
+              }
+              <CellButton
+                before={<Icon16Users/>}
+                onClick={joinGroup}
+                style={{color:'green'}}
+              >Вступить в группу</CellButton>
+              <CellButton
+                before={<Icon16Share/>}
+                onClick={share}
+              >Поделиться</CellButton>
+            </Card>
+          </Div>
+
+          <Div style={{paddingBottom : 0}}>
+            <Card>
+              <Header>Ваше расписание</Header>
+              {user && user.myGroup
+                ? <>
+                  <CellButton
+                    onClick={() => goToSchedule(user.myGroup!)}
+                  >{user.myGroup.title}</CellButton>
+                  <CellButton
+                    onClick={() => {
+                      dispatch(setIsDiff(false))
+                      dispatch(delGroup(user.id))
                     }}
-                  >
-                    <Button
-                      onClick={() => goToSchedule(user.myGroup!)}
-                    >{user.myGroup.title}</Button>
-                    <Button
-                      mode="destructive"
-                      style={{marginTop:8}}
-                      onClick={() => {
-                        dispatch(setIsDiff(false))
-                        dispatch(delGroup(user.id))
-                      }}
-                    >Удалить расписание</Button>
-                  </div>
-                : <Button
-                    size="xl"
+                    style={{color:'red'}}
+                  >Удалить расписание</CellButton>
+                </>
+                : <CellButton
                     onClick={() => {
                       dispatch(changeStory(SCHEDULE_STORY))
                       dispatch(changePanel({story:SCHEDULE_STORY,panel:SEARCH_PANEL}))
                       dispatch(clearHistory())
                     }}
-                  >Выбрать</Button>
-            }
-          />
+                    style={{color:'orange'}}
+                  >Выбрать</CellButton>
+              }
+            </Card>
+          </Div>
           {user && user.myGroup &&
             <Div style={{padding:'0px 12px 12px 12px'}}>
               <Card>

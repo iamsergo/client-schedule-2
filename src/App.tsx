@@ -42,7 +42,6 @@ const App : React.FC = () => {
 		async function init()
 		{
 			const userData = await bridge.send('VKWebAppGetUserInfo')
-			dispatch(requestStreams())
 			dispatch(requestUser(userData.id))
 		}
 

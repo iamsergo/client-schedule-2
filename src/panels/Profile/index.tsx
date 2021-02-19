@@ -136,6 +136,32 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
 
+          <Banner
+            mode="image"
+            header="Конкурс"
+            subheader="Выиграйте любые стикеры!"
+            background={
+              <div
+                style={{
+                  backgroundColor: '#5b9be6',
+                  backgroundImage: `url(${bg1})`,
+                  backgroundPosition: 'right bottom',
+                  backgroundSize: '102%',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              />
+            }
+            actions={
+              <Button mode="overlay_primary" size="l">
+                <Link
+                  target="_blank"
+                  href="https://vk.com/wall-198278031_14"
+                  style={{color:'black'}}
+                >Подробнее</Link>
+              </Button>
+            }
+          />
+
           <Div style={{padding:'0px 12px'}}>
             <Card className="card-wrapper">
               <Header>Трансляции</Header>

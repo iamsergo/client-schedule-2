@@ -155,7 +155,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
               <Button mode="overlay_primary" size="l">
                 <Link
                   target="_blank"
-                  href="https://vk.com/wall-198278031_14"
+                  href="https://vk.com/wall-198278031_15"
                   style={{color:'black'}}
                 >Подробнее</Link>
               </Button>

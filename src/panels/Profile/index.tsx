@@ -16,6 +16,7 @@ import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
 import bg2 from '../../assets/banner_bg1.jpg'
+import bg3 from '../../assets/dp.png'
 
 import {currentWeek, toEnd } from '../../utils'
 import { useDispatch, useSelector } from 'react-redux'
@@ -138,15 +139,15 @@ const Profile : React.FC<IProfilePanelProps> = ({
 
           <Banner
             mode="image"
-            header="Конкурс"
-            subheader="Выиграйте любые стикеры!"
+            header="Сегодня результаты, успейте участвовать!"
+            subheader="Помогите приложению - выиграйте любые стикеры!"
             background={
               <div
                 style={{
-                  backgroundColor: '#5b9be6',
-                  backgroundImage: `url(${bg1})`,
+                  backgroundColor: '#ff7f27',
+                  backgroundImage: `url(${bg3})`,
                   backgroundPosition: 'right bottom',
-                  backgroundSize: '102%',
+                  backgroundSize: '57%',
                   backgroundRepeat: 'no-repeat',
                 }}
               />

@@ -1,7 +1,7 @@
 import React from 'react'
 import './Profile.sass'
 
-import { Avatar, Banner, Button, Card, CardScroll, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, Snackbar, Spinner, usePlatform } from "@vkontakte/vkui"
+import { Avatar, Banner, Button, Card, CardScroll, CellButton, Div, Group, Header, InfoRow, Link, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, Progress, SimpleCell, Snackbar, Spinner, Text, usePlatform } from "@vkontakte/vkui"
 import Icon28GlobeOutline from '@vkontakte/icons/dist/28/globe_outline'
 import Icon16Favorite from '@vkontakte/icons/dist/16/favorite';
 import Icon16OnlineMobile from '@vkontakte/icons/dist/16/online_mobile';
@@ -17,6 +17,7 @@ import bridge from '@vkontakte/vk-bridge'
 import bg1 from '../../assets/banner_bg.jpg'
 import bg2 from '../../assets/banner_bg1.jpg'
 import bg3 from '../../assets/dp.png'
+import qoutes from '../../data/qoutes.json'
 
 import {currentWeek, toEnd } from '../../utils'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,7 +28,6 @@ import { clearHistory, requestSchedule, setIsDiff } from '../../redux/slices/sch
 import { delGroup, requestStreams } from '../../redux/slices/profile'
 import { FromWhom } from '../../types/ILesson'
 import { useLastSchedules } from '../../utils'
-
 
 
 interface IProfilePanelProps
@@ -99,6 +99,8 @@ const Profile : React.FC<IProfilePanelProps> = ({
       .then(res=>res)
       .catch(err=>err)    
   }
+
+  const qoute = qoutes.find(q => q.id === diff)!
   
   return(
     <Panel id={id}>
@@ -137,34 +139,16 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
 
-          <Div style={{padding:'0px 12px'}}>
-            <Card className="card-wrapper">
-              <Header>Трансляции</Header>
-              {streams.length === 0 && !loadingStreams &&
-                <CellButton
-                  onClick={() => dispatch(requestStreams())}
-                >Загрузить</CellButton>
-              }
-              {loadingStreams
-                ? <Spinner />
-                : errorStreams
-                  ? <Div style={{display:'flex', justifyContent:'center'}}>
-                      <Button
-                        mode="tertiary"
-                        onClick={() => dispatch(requestStreams())}
-                      >Попробовать еще</Button>
-                  </Div>
-                  : <CardScroll>
-                      {streams.map((stream, i) => {
-                        return <Card
-                          key={i}
-                          className="card-stream"
-                        ><Link href={stream.href}>{stream.title}</Link></Card>
-                        })
-                      }
-                    </CardScroll>
-              }
-              
+          <Div style={{padding:'0 12px'}}>
+            <Card>
+              <SimpleCell
+                disabled
+                before={<Avatar size={40} src={qoute.photo} />}
+                description="Цитата на день"
+              >{qoute.author}</SimpleCell>
+              <Div style={{paddingTop:0,fontStyle:'italic'}}>
+                {qoute.text}
+              </Div>
             </Card>
           </Div>
 
@@ -194,7 +178,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
             </Card>
           </Div>
 
-          <Div style={{paddingBottom : 0}}>
+          <Div style={{paddingBottom : (user && user.myGroup) ? 0 : 12}}>
             <Card>
               <Header>Ваше расписание</Header>
               {user && user.myGroup

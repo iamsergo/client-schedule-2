@@ -12,6 +12,8 @@ import Icon24NotificationOutline from '@vkontakte/icons/dist/24/notification_out
 import Icon24NotificationSlashOutline from '@vkontakte/icons/dist/24/notification_slash_outline';
 import Icon28SnowflakeOutline from '@vkontakte/icons/dist/28/snowflake_outline';
 import Icon16Users from '@vkontakte/icons/dist/16/users';
+import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
+import Icon16DropdownFlipped from '@vkontakte/icons/dist/16/dropdown_flipped';
 import bridge from '@vkontakte/vk-bridge'
 
 import bg1 from '../../assets/banner_bg.jpg'
@@ -58,6 +60,11 @@ const Profile : React.FC<IProfilePanelProps> = ({
         onClose={() => setSnackbar(null)}
       >{text}</Snackbar>
     )
+  }
+
+  const [fromWhomsShowed, setFromWhomsShode] = React.useState<boolean>(false)
+  const toggleFromWhomsShowing = () => {
+    setFromWhomsShode(!fromWhomsShowed)
   }
 
   const { setLast } = useLastSchedules(COUNT_LAST_SCHEDULES)
@@ -139,7 +146,7 @@ const Profile : React.FC<IProfilePanelProps> = ({
             }
           />
 
-          <Div style={{padding:'0 12px'}}>
+          {/* <Div style={{padding:'0 12px'}}>
             <Card>
               <SimpleCell
                 disabled
@@ -150,9 +157,9 @@ const Profile : React.FC<IProfilePanelProps> = ({
                 {qoute.text}
               </Div>
             </Card>
-          </Div>
+          </Div> */}
 
-          <Div style={{paddingBottom : 0}}>
+          <Div style={{paddingBottom : 0, paddingTop: 0}}>
             <Card>
               <Header>Действия</Header>
               <CellButton
@@ -209,10 +216,14 @@ const Profile : React.FC<IProfilePanelProps> = ({
             <Div style={{padding:'0px 12px 12px 12px'}}>
               <Card>
                 <Group
-                  header={<Header>{user.group.includes('t') ? 'Группы' : 'Преподаватели'}</Header>}
+                  header={
+                    <Header onClick={toggleFromWhomsShowing}>
+                      {user.group.includes('t') ? 'Группы' : 'Преподаватели'}
+                      {!fromWhomsShowed ? <Icon16Dropdown /> : <Icon16DropdownFlipped />}
+                    </Header>}
                   style={{marginTop:8}}
                 >
-                  {user.fromWhoms.map((fw,i) => {
+                  {fromWhomsShowed && user.fromWhoms.map((fw,i) => {
                     return <CellButton
                       key={i}
                       onClick={() => goToSchedule(fw)}
